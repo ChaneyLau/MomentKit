@@ -8,18 +8,33 @@
 //  用户详细资料
 //
 
-#import <UIKit/UIKit.h>
+#import "UKViewController.h"
 #import "MUser.h"
 
-@interface MMUserDetailViewController : UIViewController
+@interface MMUserDetailViewController : UKViewController
 
-@property (nonatomic, strong) MUser * user;
+@property (nonatomic, strong) MUser *user;
 
 @end
 
 @interface MMUserDetailCell : UITableViewCell
 
-@property (nonatomic, strong) MUser * user;
+@property (nonatomic, strong) MUser *user;
+
+@property (nonatomic, strong) UIImage *image;
+@property (nonatomic, strong) NSString *title;
 
 @end
 
+@interface MMUserTitleCell : UITableViewCell
+
+@property (nonatomic, strong) NSString *title;
+
+@end
+
+@interface MMUserActionCell : UITableViewCell
+
+@property (nonatomic, strong) NSString *title;
+@property (nonatomic, strong) UIImage *image;
+
+@end

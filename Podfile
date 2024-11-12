@@ -1,4 +1,4 @@
-platform :ios, '9.0'
+platform :ios, '11.0'
 
 target 'MomentKit' do
   
@@ -9,8 +9,8 @@ target 'MomentKit' do
   pod "YYText"
   pod "FMDB"
   pod "AMap3DMap"
+  pod "Masonry"
+  pod "MMKV"
   pod "UUActionSheet"
-  pod "UUButton"
-  pod "MMWebView"
 
 end

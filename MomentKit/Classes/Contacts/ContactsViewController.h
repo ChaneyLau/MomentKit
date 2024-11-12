@@ -6,8 +6,8 @@
 //  Copyright © 2019 LEA. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "UKViewController.h"
 
-@interface ContactsViewController : UIViewController
+@interface ContactsViewController : UKViewController
 
 @end

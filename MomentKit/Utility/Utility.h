@@ -16,7 +16,5 @@
 + (NSString *)getMessageTime:(long long)timestamp;
 // 获取单张图片的实际size
 + (CGSize)getMomentImageSize:(CGSize)size;
-// 颜色转图片
-+ (UIImage *)imageWithRenderColor:(UIColor *)color renderSize:(CGSize)size;
 
 @end

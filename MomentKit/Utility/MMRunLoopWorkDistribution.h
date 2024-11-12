@@ -26,6 +26,6 @@ typedef BOOL(^MMRunLoopWorkDistributionUnit)(void);
 
 @interface UITableViewCell (MMRunLoopWorkDistribution)
 
-@property (nonatomic, strong) NSIndexPath * currentIndexPath;
+@property (nonatomic, strong) NSIndexPath *currentIndexPath;
 
 @end

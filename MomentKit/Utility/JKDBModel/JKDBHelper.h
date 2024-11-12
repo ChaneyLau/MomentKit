@@ -7,7 +7,7 @@
 //  github:https://github.com/Joker-King/JKDBModel
 
 #import <Foundation/Foundation.h>
-#import "FMDB.h"
+#import <fmdb/FMDB.h>
 
 @interface JKDBHelper : NSObject
 

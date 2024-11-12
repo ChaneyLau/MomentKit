@@ -14,9 +14,9 @@
 @interface MMImageListView ()
 
 // 图片视图数组
-@property (nonatomic, strong) NSMutableArray * imageViewsArray;
+@property (nonatomic, strong) NSMutableArray *imageViewsArray;
 // 预览视图
-@property (nonatomic, strong) MMImagePreviewView * previewView;
+@property (nonatomic, strong) MMImagePreviewView *previewView;
 
 @end
 
@@ -30,7 +30,7 @@
         // 小图(九宫格)
         _imageViewsArray = [[NSMutableArray alloc] init];
         for (int i = 0; i < 9; i++) {
-            MMImageView * imageView = [[MMImageView alloc] initWithFrame:CGRectZero];
+            MMImageView *imageView = [[MMImageView alloc] initWithFrame:CGRectZero];
             imageView.tag = 1000 + i;
             imageView.backgroundColor = k_background_color;
             [imageView setClickHandler:^(MMImageView *imageView){
@@ -53,7 +53,7 @@
 - (void)setMoment:(Moment *)moment
 {
     _moment = moment;
-    for (MMImageView * imageView in _imageViewsArray) {
+    for (MMImageView *imageView in _imageViewsArray) {
         imageView.hidden = YES;
     }
     // 图片区
@@ -66,7 +66,7 @@
     _previewView.pageNum = count;
     _previewView.scrollView.contentSize = CGSizeMake(_previewView.width*count, _previewView.height);
     // 添加图片
-    MMImageView * imageView = nil;
+    MMImageView *imageView = nil;
     for (NSInteger i = 0; i < count; i++)
     {
         NSInteger rowNum = i / 3;
@@ -97,12 +97,12 @@
 {
     // 图片区
     NSInteger count = [_moment.pictureList count];
-    MMImageView * imageView = nil;
+    MMImageView *imageView = nil;
     for (NSInteger i = 0; i < count; i++)
     {
         imageView = [self viewWithTag:1000 + i];
         // 赋值>图片渲染
-        MPicture * picture = [_moment.pictureList objectAtIndex:i];
+        MPicture *picture = [_moment.pictureList objectAtIndex:i];
         [imageView sd_setImageWithURL:[NSURL URLWithString:picture.thumbnail]
                      placeholderImage:nil];
     }
@@ -176,35 +176,6 @@
 - (void)longPresssBigViewCallback:(MMScrollView *)scrollView
 {
     
-}
-
-@end
-
-#pragma mark - ------------------ 单个小图显示视图 ------------------
-@implementation MMImageView
-
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self)
-    {
-        self.backgroundColor = [UIColor lightGrayColor];
-        self.contentScaleFactor = [[UIScreen mainScreen] scale];
-        self.contentMode = UIViewContentModeScaleAspectFill;
-        self.clipsToBounds  = YES;
-        self.userInteractionEnabled = YES;
-        
-        UITapGestureRecognizer * singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapGestureCallback:)];
-        [self addGestureRecognizer:singleTap];
-    }
-    return self;
-}
-
-- (void)singleTapGestureCallback:(UIGestureRecognizer *)gesture
-{
-    if (self.clickHandler) {
-        self.clickHandler(self);
-    }
 }
 
 @end

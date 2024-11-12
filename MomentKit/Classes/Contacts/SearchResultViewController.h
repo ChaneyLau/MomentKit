@@ -6,9 +6,9 @@
 //  Copyright © 2019 LEA. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "UKViewController.h"
 
-@interface SearchResultViewController : UIViewController
+@interface SearchResultViewController : UKViewController
 
 @end
 

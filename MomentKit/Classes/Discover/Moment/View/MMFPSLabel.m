@@ -10,7 +10,7 @@
 
 @interface MMFPSLabel ()
 
-@property (nonatomic, strong) CADisplayLink * link;
+@property (nonatomic, strong) CADisplayLink *link;
 @property (nonatomic, assign) NSTimeInterval lastTime;
 @property (nonatomic, assign) NSUInteger count;
 
@@ -35,7 +35,7 @@
         self.layer.shadowPath = [[UIBezierPath bezierPathWithRect:self.bounds] CGPath];
 
         // 拖动手势
-        UIPanGestureRecognizer * panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(changePostion:)];
+        UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(changePostion:)];
         [self addGestureRecognizer:panGesture];
         
         _link = [CADisplayLink displayLinkWithTarget:self selector:@selector(tick:)];
@@ -59,8 +59,8 @@
     float fps = _count / delta;
     _count = 0;
     
-    NSString * text = [NSString stringWithFormat:@"%d FPS",(int)round(fps)];
-    NSMutableAttributedString * attText = [[NSMutableAttributedString alloc] initWithString:text];
+    NSString *text = [NSString stringWithFormat:@"%d FPS",(int)round(fps)];
+    NSMutableAttributedString *attText = [[NSMutableAttributedString alloc] initWithString:text];
     [attText addAttribute:NSForegroundColorAttributeName value:kHLTextColor range:NSMakeRange(0, attText.length - 3)];
     [attText addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:18.0] range:NSMakeRange(0, attText.length - 3)];
     self.attributedText = attText;

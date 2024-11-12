@@ -6,16 +6,9 @@
 //  Copyright © 2019 LEA. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "Message.h"
+#import "UKViewController.h"
 
-@interface MessageViewController : UIViewController
-
-@end
-
-@interface MessageCell : UITableViewCell
-
-@property (nonatomic, strong) Message * message;
+@interface MessageViewController : UKViewController
 
 @end
 

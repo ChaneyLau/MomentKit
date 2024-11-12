@@ -14,14 +14,14 @@
 + (NSString *)getMomentTime:(long long)timestamp
 {
     // 入参日期
-    NSDate * date = [NSDate dateWithTimeIntervalSince1970:timestamp];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:timestamp];
     // 当前日期
-    NSDate * curDate = [NSDate date];
+    NSDate *curDate = [NSDate date];
     // 日历
-    NSCalendar * calendar = [NSCalendar currentCalendar];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
     NSCalendarUnit unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
     // 获取日期差
-    NSDateComponents * delta = [calendar components:unitFlags fromDate:date toDate:curDate options:0];
+    NSDateComponents *delta = [calendar components:unitFlags fromDate:date toDate:curDate options:0];
     NSInteger year = delta.year;
     NSInteger month = delta.month;
     NSInteger day = delta.day;
@@ -49,27 +49,30 @@
 + (NSString *)getMessageTime:(long long)timestamp
 {
     // 入参日期
-    NSTimeZone * timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
-    NSDateFormatter * dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+    NSTimeZone *timeZone = [[NSTimeZone alloc] initWithName:@"Asia/Shanghai"];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy年MM月dd日 HH:mm"];
     [dateFormatter setTimeZone:timeZone];
-    NSDate * date = [NSDate dateWithTimeIntervalSince1970:timestamp];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:timestamp];
     // 当前日期
-    NSDate * curDate = [NSDate date];
+    NSDate *curDate = [NSDate date];
     // 日历
-    NSCalendar * calendar = [NSCalendar currentCalendar];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
     NSCalendarUnit unit = NSCalendarUnitDay;
     // 获取日期差
-    NSDateComponents * delta = [calendar components:unit fromDate:curDate toDate:date options:0];
+    NSDateComponents *delta = [calendar components:unit fromDate:curDate toDate:date options:0];
     NSInteger day = delta.day;
-    NSString * temString = nil;
+    NSString *temString = nil;
     if (day == 0) { // 今天
         [dateFormatter setDateFormat:@"HH:mm"];
         temString = [dateFormatter stringFromDate:date];
     } else if (day == 1) { // 昨天
-        return @"昨天";
+        [dateFormatter setDateFormat:@"HH:mm"];
+        temString = [dateFormatter stringFromDate:date];
+        temString = [NSString stringWithFormat:@"昨天 %@", temString];
+        return temString;
     } else {
-        [dateFormatter setDateFormat:@"yyyy/M/d"];
+        [dateFormatter setDateFormat:@"yyyy年MM月dd日"];
         temString = [dateFormatter stringFromDate:date];
     }
     return temString;
@@ -99,17 +102,6 @@
         }
     }
     return CGSizeMake(out_width, out_height);
-}
-
-// 颜色转图片
-+ (UIImage *)imageWithRenderColor:(UIColor *)color renderSize:(CGSize)size
-{
-    UIGraphicsBeginImageContextWithOptions(size, NO, 0.0);
-    [color setFill];
-    UIRectFill(CGRectMake(0, 0, size.width, size.height));
-    UIImage * image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return image;
 }
 
 @end

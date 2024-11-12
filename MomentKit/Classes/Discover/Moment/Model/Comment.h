@@ -14,11 +14,11 @@
 @interface Comment : JKDBModel
 
 // 正文
-@property (nonatomic, copy) NSString * text;
+@property (nonatomic, copy) NSString *text;
 // xxx: （来源）
-@property (nonatomic, strong) MUser * fromUser;
+@property (nonatomic, strong) MUser *fromUser;
 // 回复:xxx （目标）
-@property (nonatomic, strong) MUser * toUser;
+@property (nonatomic, strong) MUser *toUser;
 
 // xxx: （来源）
 @property (nonatomic, assign) NSInteger fromId;

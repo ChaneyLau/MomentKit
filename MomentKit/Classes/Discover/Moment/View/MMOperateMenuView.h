@@ -9,7 +9,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <UUButton.h>
 
 @interface MMOperateMenuView : UIView
 
@@ -22,7 +21,7 @@
 
 @end
 
-@interface MMOperateMenuButton : UUButton
+@interface MMOperateMenuButton : UIButton
 
 // 动画
 @property (nonatomic, readwrite, assign) BOOL allowAnimation;

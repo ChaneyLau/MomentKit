@@ -13,7 +13,7 @@
 @interface MPicture : JKDBModel
 
 // 图片路径
-@property (nonatomic, copy) NSString * thumbnail;
+@property (nonatomic, copy) NSString *thumbnail;
 
 @end
 

@@ -12,11 +12,11 @@
 @interface MMCommentInputView () <YYTextViewDelegate>
 
 // 容器视图
-@property (nonatomic, strong) UIView * containView;
+@property (nonatomic, strong) UIView *containView;
 // 输入框
-@property (nonatomic, strong) YYTextView * textView;
+@property (nonatomic, strong) YYTextView *textView;
 // 表情按钮
-@property (nonatomic, strong) UIButton * emoticonBtn;
+@property (nonatomic, strong) UIButton *emoticonBtn;
 // 记录容器高度
 @property (nonatomic, assign) CGFloat ctHeight;
 // 记录上一次容器高度
@@ -32,23 +32,23 @@
 {
     if (self == [super initWithFrame:frame]) {
         // 容器视图
-        UIView * view = [[UIView alloc] initWithFrame:CGRectMake(0, k_screen_height, k_screen_width, MMContainMinHeight)];
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, k_screen_height, k_screen_width, MMContainMinHeight)];
         view.backgroundColor = MMRGBColor(248, 248, 248);
         [self addSubview:view];
         self.containView = view;
         // -- 分割线
-        CALayer * layer = [CALayer layer];
+        CALayer *layer = [CALayer layer];
         layer.backgroundColor = MMRGBColor(230, 230, 230).CGColor;
         layer.frame = CGRectMake(0, 0, k_screen_width, 0.5);
         [view.layer addSublayer:layer];
         
         // 行间距
-        NSMutableParagraphStyle * style = [[NSMutableParagraphStyle alloc] init];
+        NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
         style.lineSpacing = 5;
         // attributes
-        NSDictionary * textAttributes = @{NSParagraphStyleAttributeName:style};
+        NSDictionary *textAttributes = @{NSParagraphStyleAttributeName:style};
         // 输入框
-        YYTextView * textView = [[YYTextView alloc] initWithFrame:CGRectMake(15, MarginHeight/2.0, k_screen_width - (MMContainMinHeight + 15), MMContainMinHeight - MarginHeight)];
+        YYTextView *textView = [[YYTextView alloc] initWithFrame:CGRectMake(15, MarginHeight/2.0, k_screen_width - (MMContainMinHeight + 15), MMContainMinHeight - MarginHeight)];
         textView.backgroundColor = [UIColor whiteColor];
         textView.returnKeyType = UIReturnKeySend;
         textView.enablesReturnKeyAutomatically = YES;
@@ -61,14 +61,14 @@
         textView.font = [UIFont systemFontOfSize:16.0];
         textView.textContainerInset = UIEdgeInsetsMake(7, 7, 7, 7);
         textView.typingAttributes = textAttributes;
-        textView.placeholderText = @"评论";
+        textView.placeholderText = @"发表评论：";
         textView.placeholderTextColor = MMRGBColor(220, 220, 220);
         textView.delegate = self;
         [self.containView addSubview:textView];
         self.textView = textView;
         
         // 表情按钮
-        UIButton * btn = [[UIButton alloc] initWithFrame:CGRectMake(k_screen_width - MMContainMinHeight, 0, MMContainMinHeight, MMContainMinHeight)];
+        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(k_screen_width - MMContainMinHeight, 0, MMContainMinHeight, MMContainMinHeight)];
         [btn setImageEdgeInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
         [btn setImage:[UIImage imageNamed:@"moment_emoticon"] forState:UIControlStateNormal];
         [btn setImage:[UIImage imageNamed:@"moment_emoticon_hl"] forState:UIControlStateHighlighted];
@@ -89,7 +89,7 @@
 {
     _comment = comment;
     if (!comment) {
-        self.textView.placeholderText = @"评论";
+        self.textView.placeholderText = @"发表评论：";
     } else {
         self.textView.placeholderText = [NSString stringWithFormat:@"回复%@:",comment.fromUser.name];
     }
@@ -98,7 +98,7 @@
 #pragma mark - 键盘监听
 - (void)keyboardFrameChange:(NSNotification *)notification
 {
-    NSDictionary * userInfo = [notification userInfo];
+    NSDictionary *userInfo = [notification userInfo];
     CGRect endFrame = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     CGFloat duration = [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     UIViewAnimationOptions options = ([[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] integerValue] << 16 ) | UIViewAnimationOptionBeginFromCurrentState;
@@ -188,7 +188,7 @@
 #pragma mark - UIResponder
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    UITouch * touch = [touches anyObject];
+    UITouch *touch = [touches anyObject];
     CGPoint currentPoint = [touch locationInView:self.superview];
     if (CGRectContainsPoint(self.containView.frame, currentPoint) == NO) {
         [self.textView resignFirstResponder];

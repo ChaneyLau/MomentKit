@@ -13,11 +13,11 @@
 @interface Message : JKDBModel
 
 // 名字
-@property (nonatomic, copy) NSString * userName;
+@property (nonatomic, copy) NSString *userName;
 // 头像路径
-@property (nonatomic, copy) NSString * userPortrait;
+@property (nonatomic, copy) NSString *userPortrait;
 // 名字
-@property (nonatomic, copy) NSString * content;
+@property (nonatomic, copy) NSString *content;
 // 时间戳
 @property (nonatomic, assign) long long time;
 

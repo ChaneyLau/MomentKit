@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2228F6262CD1DB06006B6501 /* UKViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2228F6252CD1DB06006B6501 /* UKViewController.m */; };
+		2228F62C2CD21415006B6501 /* MessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2228F62B2CD21415006B6501 /* MessageCell.m */; };
+		2228F6312CD215A6006B6501 /* MMImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2228F6302CD215A6006B6501 /* MMImageView.m */; };
+		2228F6382CD21794006B6501 /* DBCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = 2228F6372CD21794006B6501 /* DBCreator.m */; };
+		228827382CD0D8F900F45301 /* UIImage+Color.m in Sources */ = {isa = PBXBuildFile; fileRef = 228827372CD0D8F900F45301 /* UIImage+Color.m */; };
+		22DB1F7B2CDE0B50005158DA /* MomentAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 22DB1F7A2CDE0B50005158DA /* MomentAlert.m */; };
 		535C20E17AD05A5D54A46E71 /* libPods-MomentKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 982B6162EEA9642E2354D7BD /* libPods-MomentKit.a */; };
 		8B3BA0B01FDFE1BF00407D25 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B3BA0AF1FDFE1BF00407D25 /* main.m */; };
 		8B3BA0B31FDFE1BF00407D25 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B3BA0B21FDFE1BF00407D25 /* AppDelegate.m */; };
@@ -51,6 +57,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2228F6242CD1DB06006B6501 /* UKViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UKViewController.h; sourceTree = "<group>"; };
+		2228F6252CD1DB06006B6501 /* UKViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UKViewController.m; sourceTree = "<group>"; };
+		2228F62A2CD21415006B6501 /* MessageCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageCell.h; sourceTree = "<group>"; };
+		2228F62B2CD21415006B6501 /* MessageCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageCell.m; sourceTree = "<group>"; };
+		2228F62F2CD215A6006B6501 /* MMImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMImageView.h; sourceTree = "<group>"; };
+		2228F6302CD215A6006B6501 /* MMImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMImageView.m; sourceTree = "<group>"; };
+		2228F6362CD21794006B6501 /* DBCreator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBCreator.h; sourceTree = "<group>"; };
+		2228F6372CD21794006B6501 /* DBCreator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBCreator.m; sourceTree = "<group>"; };
+		228827362CD0D8F900F45301 /* UIImage+Color.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImage+Color.h"; sourceTree = "<group>"; };
+		228827372CD0D8F900F45301 /* UIImage+Color.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Color.m"; sourceTree = "<group>"; };
+		22DB1F792CDE0B50005158DA /* MomentAlert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MomentAlert.h; sourceTree = "<group>"; };
+		22DB1F7A2CDE0B50005158DA /* MomentAlert.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MomentAlert.m; sourceTree = "<group>"; };
 		2A914DEBA05CE3BE1B2BF4BF /* Pods-MomentKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MomentKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-MomentKit/Pods-MomentKit.release.xcconfig"; sourceTree = "<group>"; };
 		8B3BA0AB1FDFE1BF00407D25 /* MomentKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MomentKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B3BA0AF1FDFE1BF00407D25 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -147,6 +165,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2228F6322CD216B7006B6501 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				FA58E4B522058AB500B788F8 /* NSString+Letter.h */,
+				FA58E4B622058AB500B788F8 /* NSString+Letter.m */,
+				228827362CD0D8F900F45301 /* UIImage+Color.h */,
+				228827372CD0D8F900F45301 /* UIImage+Color.m */,
+				FA9597742249D425007CD252 /* UIScrollView+Category.h */,
+				FA9597752249D425007CD252 /* UIScrollView+Category.m */,
+				8B3BA1151FDFE63A00407D25 /* UIView+Geometry.h */,
+				8B3BA1161FDFE63A00407D25 /* UIView+Geometry.m */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
 		8B3BA0A21FDFE1BF00407D25 = {
 			isa = PBXGroup;
 			children = (
@@ -168,6 +201,7 @@
 		8B3BA0AD1FDFE1BF00407D25 /* MomentKit */ = {
 			isa = PBXGroup;
 			children = (
+				2228F6322CD216B7006B6501 /* Category */,
 				8B3BA1141FDFE62600407D25 /* Utility */,
 				8B3BA1131FDFE62600407D25 /* Classes */,
 				8B3BA0B11FDFE1BF00407D25 /* AppDelegate.h */,
@@ -196,6 +230,8 @@
 			children = (
 				8B3BA1331FDFE72300407D25 /* MainViewController.h */,
 				8B3BA1341FDFE72300407D25 /* MainViewController.m */,
+				2228F6242CD1DB06006B6501 /* UKViewController.h */,
+				2228F6252CD1DB06006B6501 /* UKViewController.m */,
 				FA58E4A22205784400B788F8 /* Message */,
 				FA15601C22238249001B626B /* Contacts */,
 				FA58E4A82205784500B788F8 /* Discover */,
@@ -210,16 +246,19 @@
 				FAAE697F220426EE005EFFAF /* JKDBModel */,
 				8B3BA16C1FDFEAFD00407D25 /* Utility.h */,
 				8B3BA16D1FDFEAFD00407D25 /* Utility.m */,
-				8B3BA1151FDFE63A00407D25 /* UIView+Geometry.h */,
-				8B3BA1161FDFE63A00407D25 /* UIView+Geometry.m */,
-				FA9597742249D425007CD252 /* UIScrollView+Category.h */,
-				FA9597752249D425007CD252 /* UIScrollView+Category.m */,
-				FA58E4B522058AB500B788F8 /* NSString+Letter.h */,
-				FA58E4B622058AB500B788F8 /* NSString+Letter.m */,
 				FA58E4B822058B0900B788F8 /* JPinYinUtil.h */,
 				FA58E4B922058B0900B788F8 /* JPinYinUtil.m */,
 				FA7CB05022B8C9FB003E91CC /* MMRunLoopWorkDistribution.h */,
 				FA7CB05122B8C9FB003E91CC /* MMRunLoopWorkDistribution.m */,
+				FA7A75FA224B089E00A1A483 /* MomentMacros.h */,
+				FA7A75FF224B0B5200A1A483 /* MomentConstant.h */,
+				FA7A7600224B0B5200A1A483 /* MomentConstant.m */,
+				FA41721D22658F0C0061A3AA /* MMTableView.h */,
+				FA41721E22658F0C0061A3AA /* MMTableView.m */,
+				2228F62F2CD215A6006B6501 /* MMImageView.h */,
+				2228F6302CD215A6006B6501 /* MMImageView.m */,
+				2228F6362CD21794006B6501 /* DBCreator.h */,
+				2228F6372CD21794006B6501 /* DBCreator.m */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -270,14 +309,16 @@
 			children = (
 				8BF765741FE2270C0064EC94 /* MomentCell.h */,
 				8BF765751FE2270C0064EC94 /* MomentCell.m */,
+				22DB1F792CDE0B50005158DA /* MomentAlert.h */,
+				22DB1F7A2CDE0B50005158DA /* MomentAlert.m */,
+				FABE69D62248C21600E574D3 /* MMCommentInputView.h */,
+				FABE69D72248C21600E574D3 /* MMCommentInputView.m */,
 				8BF765771FE2272A0064EC94 /* MMImageListView.h */,
 				8BF765781FE2272A0064EC94 /* MMImageListView.m */,
 				8BF7657A1FE227450064EC94 /* MMImagePreviewView.h */,
 				8BF7657B1FE227450064EC94 /* MMImagePreviewView.m */,
 				8BE52D131FE35CC200B305C2 /* MMOperateMenuView.h */,
 				8BE52D141FE35CC200B305C2 /* MMOperateMenuView.m */,
-				FABE69D62248C21600E574D3 /* MMCommentInputView.h */,
-				FABE69D72248C21600E574D3 /* MMCommentInputView.m */,
 				FA7CB05322B8D4AB003E91CC /* MMFPSLabel.h */,
 				FA7CB05422B8D4AB003E91CC /* MMFPSLabel.m */,
 			);
@@ -317,8 +358,8 @@
 		FA41721C22658EED0061A3AA /* View */ = {
 			isa = PBXGroup;
 			children = (
-				FA41721D22658F0C0061A3AA /* MMTableView.h */,
-				FA41721E22658F0C0061A3AA /* MMTableView.m */,
+				2228F62A2CD21415006B6501 /* MessageCell.h */,
+				2228F62B2CD21415006B6501 /* MessageCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -392,9 +433,6 @@
 		FAAE69862204376A005EFFAF /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				FA7A75FA224B089E00A1A483 /* MomentMacros.h */,
-				FA7A75FF224B0B5200A1A483 /* MomentConstant.h */,
-				FA7A7600224B0B5200A1A483 /* MomentConstant.m */,
 				FAAE698722043787005EFFAF /* MomentUtil.h */,
 				FAAE698822043787005EFFAF /* MomentUtil.m */,
 				FAF2948A2264A22700226F8E /* MLLabelUtil.h */,
@@ -436,7 +474,7 @@
 				TargetAttributes = {
 					8B3BA0AA1FDFE1BF00407D25 = {
 						CreatedOnToolsVersion = 8.3.3;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -500,12 +538,16 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-MomentKit/Pods-MomentKit-resources.sh",
 				"${PODS_ROOT}/AMap3DMap/MAMapKit.framework/AMap.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/FMDB/FMDB.bundle",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/SDWebImage/SDWebImage.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AMap.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FMDB.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SDWebImage.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -519,6 +561,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2228F6312CD215A6006B6501 /* MMImageView.m in Sources */,
 				8B3BA1171FDFE63A00407D25 /* UIView+Geometry.m in Sources */,
 				FA9597762249D425007CD252 /* UIScrollView+Category.m in Sources */,
 				FAA79A072227DB12000716F8 /* MessageViewController.m in Sources */,
@@ -534,6 +577,7 @@
 				FAFA5FFC2251E29800129168 /* MLocation.m in Sources */,
 				8BF765791FE2272A0064EC94 /* MMImageListView.m in Sources */,
 				8B3BA0B31FDFE1BF00407D25 /* AppDelegate.m in Sources */,
+				2228F62C2CD21415006B6501 /* MessageCell.m in Sources */,
 				8B3BA15A1FDFE91400407D25 /* Moment.m in Sources */,
 				FA58E4922205490700B788F8 /* WKWebViewController.m in Sources */,
 				8BF7657C1FE227450064EC94 /* MMImagePreviewView.m in Sources */,
@@ -543,17 +587,21 @@
 				FABE69D82248C21600E574D3 /* MMCommentInputView.m in Sources */,
 				8B3BA1351FDFE72300407D25 /* MainViewController.m in Sources */,
 				FAF29482226474F000226F8E /* MMUserDetailViewController.m in Sources */,
+				228827382CD0D8F900F45301 /* UIImage+Color.m in Sources */,
 				FAA79A1F2227E14E000716F8 /* MUser.m in Sources */,
 				FAF2948B2264A22700226F8E /* MLLabelUtil.m in Sources */,
 				FA58E4AE2205784500B788F8 /* DiscoverViewController.m in Sources */,
+				22DB1F7B2CDE0B50005158DA /* MomentAlert.m in Sources */,
 				8BE52D151FE35CC200B305C2 /* MMOperateMenuView.m in Sources */,
 				8B3BA0B01FDFE1BF00407D25 /* main.m in Sources */,
 				FAA79A022227DB00000716F8 /* SearchResultViewController.m in Sources */,
 				8B3BA1591FDFE91400407D25 /* Comment.m in Sources */,
+				2228F6262CD1DB06006B6501 /* UKViewController.m in Sources */,
 				FA7CB05222B8C9FB003E91CC /* MMRunLoopWorkDistribution.m in Sources */,
 				FA15603122239686001B626B /* MMLocationViewController.m in Sources */,
 				FA7A7601224B0B5200A1A483 /* MomentConstant.m in Sources */,
 				8BF765761FE2270C0064EC94 /* MomentCell.m in Sources */,
+				2228F6382CD21794006B6501 /* DBCreator.m in Sources */,
 				FA58E4B722058AB500B788F8 /* NSString+Letter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -621,7 +669,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -663,7 +711,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -675,13 +723,12 @@
 			baseConfigurationReference = 9BB5E3DF6E7A80D531DC9322 /* Pods-MomentKit.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				GCC_PREFIX_HEADER = "MomentKit/MomentKit-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MomentKit/MomentKit-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lea.MomentKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -694,12 +741,12 @@
 			baseConfigurationReference = 2A914DEBA05CE3BE1B2BF4BF /* Pods-MomentKit.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				GCC_PREFIX_HEADER = "MomentKit/MomentKit-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/MomentKit/MomentKit-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lea.MomentKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";

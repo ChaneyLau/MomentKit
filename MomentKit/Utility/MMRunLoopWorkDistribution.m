@@ -11,8 +11,8 @@
 
 @interface MMRunLoopWorkDistribution ()
 
-@property (nonatomic, strong) NSMutableArray * tasks;
-@property (nonatomic, strong) NSMutableArray * tasksKeys;
+@property (nonatomic, strong) NSMutableArray *tasks;
+@property (nonatomic, strong) NSMutableArray *tasksKeys;
 
 @end
 
@@ -45,7 +45,7 @@
 
 + (instancetype)sharedInstance
 {
-    static MMRunLoopWorkDistribution * singleton;
+    static MMRunLoopWorkDistribution *singleton;
     static dispatch_once_t once;
     dispatch_once(&once, ^{
         singleton = [[MMRunLoopWorkDistribution alloc] init];
@@ -71,7 +71,7 @@ static void _registerObserver(CFOptionFlags activities, CFRunLoopObserverRef obs
 
 static void _runLoopWorkDistributionCallback(CFRunLoopObserverRef observer, CFRunLoopActivity activity, void *info)
 {
-    MMRunLoopWorkDistribution * runLoopWorkDistribution = (__bridge MMRunLoopWorkDistribution *)info;
+    MMRunLoopWorkDistribution *runLoopWorkDistribution = (__bridge MMRunLoopWorkDistribution *)info;
     if (runLoopWorkDistribution.tasks.count == 0) {
         return;
     }
@@ -96,7 +96,7 @@ static void _defaultModeRunLoopWorkDistributionCallback(CFRunLoopObserverRef obs
 
 - (NSIndexPath *)currentIndexPath
 {
-    NSIndexPath * indexPath = objc_getAssociatedObject(self, @selector(currentIndexPath));
+    NSIndexPath *indexPath = objc_getAssociatedObject(self, @selector(currentIndexPath));
     return indexPath;
 }
 

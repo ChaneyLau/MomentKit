@@ -20,7 +20,7 @@
 // 容器高度
 @property (nonatomic, assign) CGFloat ctTop;
 // 当前评论(用于判断是评论还是回复)
-@property (nonatomic, strong) Comment * comment;
+@property (nonatomic, strong) Comment *comment;
 
 // 显示
 - (void)show;

@@ -11,8 +11,8 @@
 
 @interface DiscoverViewController ()<UITableViewDelegate,UITableViewDataSource>
 
-@property (nonatomic, strong) MMTableView * tableView;
-@property (nonatomic, strong) NSArray * titles;
+@property (nonatomic, strong) MMTableView *tableView;
+@property (nonatomic, strong) NSArray *titles;
 
 @end
 
@@ -21,11 +21,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.view.backgroundColor = k_background_color;
     self.titles = [NSArray arrayWithObjects:
-                   @[@"朋友圈"],@[@"扫一扫",@"摇一摇"],
-                   @[@"附近的人",@"漂流瓶"],
-                   @[@"购物",@"游戏"],@[@"小程序"], nil];
+                   @[@"朋友圈"],
+                   @[@"视频号"],
+                   @[@"扫一扫",@"听一听"],
+                   @[@"看一看",@"搜一搜"],
+                   @[@"小程序"], nil];
     [self.view addSubview:self.tableView];
 }
 
@@ -36,6 +37,10 @@
         _tableView = [[MMTableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
         _tableView.dataSource = self;
         _tableView.delegate = self;
+        _tableView.separatorColor = [UIColor colorWithWhite:0 alpha:0.1];
+        if (@available(iOS 15.0, *)) {
+            _tableView.sectionHeaderTopPadding = 0.0;
+        }
     }
     return _tableView;
 }
@@ -53,7 +58,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"Cell"];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -65,14 +70,19 @@
 }
 
 #pragma mark - UITableViewDelegate
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 56.0;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 20;
+    return 0.01;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 0.01;
+    return 10.0;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -80,7 +90,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.section == 0 && indexPath.row == 0) {
-        MomentViewController * controller = [[MomentViewController alloc] init];
+        MomentViewController *controller = [[MomentViewController alloc] init];
         controller.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:controller animated:YES];
     }

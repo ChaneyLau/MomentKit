@@ -14,14 +14,18 @@
 
 // 用户类型 1：自己 0：其他人
 @property (nonatomic, assign) int type;
+// 性别 0： 男 1：女
+@property (nonatomic, assign) int gender;
 // 名字
-@property (nonatomic, copy) NSString * name;
+@property (nonatomic, copy) NSString *name;
 // 账号
-@property (nonatomic, copy) NSString * account;
+@property (nonatomic, copy) NSString *account;
 // 头像路径
-@property (nonatomic, copy) NSString * portrait;
+@property (nonatomic, copy) NSString *portrait;
 // 区域
-@property (nonatomic, copy) NSString * region;
+@property (nonatomic, copy) NSString *region;
+// 朋友圈封面
+@property (nonatomic, copy) NSString *momentCover;
 
 @end
 

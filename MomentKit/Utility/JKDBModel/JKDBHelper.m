@@ -33,14 +33,14 @@ static JKDBHelper *_instance = nil;
 
 + (NSString *)dbPath
 {
-    NSString * docsdir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-    NSFileManager * fileManager = [NSFileManager defaultManager];
+    NSString *docsdir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
     BOOL isDir;
     BOOL exit = [fileManager fileExistsAtPath:docsdir isDirectory:&isDir];
     if (!exit || !isDir) {
         [fileManager createDirectoryAtPath:docsdir withIntermediateDirectories:YES attributes:nil error:nil];
     }
-    NSString * dbpath = [docsdir stringByAppendingPathComponent:@"MK.db"];
+    NSString *dbpath = [docsdir stringByAppendingPathComponent:@"MK.db"];
     return dbpath;
 }
 

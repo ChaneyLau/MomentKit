@@ -6,8 +6,14 @@
 //  Copyright © 2019 LEA. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "UKViewController.h"
 
-@interface MineViewController : UIViewController
+@interface MineViewController : UKViewController
+
+@end
+
+@interface MineInfoCell : UITableViewCell
+
+@property (nonatomic, strong) MUser *user;
 
 @end

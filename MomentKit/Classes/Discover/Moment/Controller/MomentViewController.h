@@ -6,8 +6,8 @@
 //  Copyright © 2017年 LEA. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "UKViewController.h"
 
-@interface MomentViewController : UIViewController
+@interface MomentViewController : UKViewController
 
 @end

@@ -33,6 +33,8 @@ CGFloat lineSpacing = 5;
     WS(wSelf);
     // 头像视图
     _avatarImageView = [[MMImageView alloc] initWithFrame:CGRectMake(10, kBlank, kAvatarWidth, kAvatarWidth)];
+    _avatarImageView.layer.cornerRadius = 4.0;
+    _avatarImageView.layer.masksToBounds = YES;
     [_avatarImageView setClickHandler:^(MMImageView *imageView) {
         if ([wSelf.delegate respondsToSelector:@selector(didOperateMoment:operateType:)]) {
             [wSelf.delegate didOperateMoment:wSelf operateType:MMOperateTypeProfile];
@@ -84,9 +86,8 @@ CGFloat lineSpacing = 5;
     // 删除视图
     _deleteBtn = [[UIButton alloc] init];
     _deleteBtn.tag = MMOperateTypeDelete;
-    _deleteBtn.titleLabel.font = [UIFont systemFontOfSize:13.0];
-    [_deleteBtn setTitle:@"删除" forState:UIControlStateNormal];
-    [_deleteBtn setTitleColor:kHLTextColor forState:UIControlStateNormal];
+    [_deleteBtn setImageEdgeInsets:UIEdgeInsetsMake(6, 6, 6, 6)];
+    [_deleteBtn setImage:[UIImage imageNamed:@"moment_delete"] forState:UIControlStateNormal];
     [_deleteBtn addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:_deleteBtn];
     // 评论视图
@@ -127,9 +128,9 @@ CGFloat lineSpacing = 5;
     if ([moment.text length])
     {
         _linkLabel.hidden = NO;
-        NSMutableParagraphStyle * style = [[NSMutableParagraphStyle alloc] init];
+        NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
         style.lineSpacing = lineSpacing;
-        NSMutableAttributedString * attributedText = [[NSMutableAttributedString alloc] initWithString:moment.text];
+        NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:moment.text];
         [attributedText addAttribute:NSParagraphStyleAttributeName value:style range:NSMakeRange(0,[moment.text length])];
         _linkLabel.attributedText = attributedText;
         // 判断显示'全文'/'收起'
@@ -143,7 +144,7 @@ CGFloat lineSpacing = 5;
             _showAllBtn.selected = _moment.isFullText;
         }
         _linkLabel.frame = CGRectMake(_nicknameBtn.left, bottom, attrStrSize.width, labHeight);
-        _showAllBtn.frame = CGRectMake(_nicknameBtn.left, _linkLabel.bottom + kArrowHeight, _showAllBtn.width, kMoreLabHeight);
+        _showAllBtn.frame = CGRectMake(_nicknameBtn.left, _linkLabel.bottom, _showAllBtn.width, kMoreLabHeight);
         if (_showAllBtn.hidden) {
             bottom = _linkLabel.bottom + kPaddingValue;
         } else {
@@ -174,10 +175,10 @@ CGFloat lineSpacing = 5;
         _locationBtn.hidden = YES;
     }
     _timeLabel.frame = CGRectMake(_nicknameBtn.left, bottom, _timeLabel.width, kTimeLabelH);
-    _deleteBtn.frame = CGRectMake(_timeLabel.right + 25, _timeLabel.top, 30, kTimeLabelH);
+    _deleteBtn.frame = CGRectMake(_timeLabel.right + 5, _timeLabel.top - 5, kTimeLabelH + 10, kTimeLabelH + 10);
     bottom = _timeLabel.bottom + kPaddingValue;
     // 操作视图
-    _menuView.frame = CGRectMake(k_screen_width-kOperateWidth-10, _timeLabel.top-(kOperateHeight-kTimeLabelH)/2, kOperateWidth, kOperateHeight);
+    _menuView.frame = CGRectMake(k_screen_width-kOperateWidth-15, _timeLabel.top-(kOperateHeight-kTimeLabelH)/2, kOperateWidth, kOperateHeight);
     _menuView.show = NO;
     _menuView.isLike = moment.isLike;
     // 处理评论/赞
@@ -189,15 +190,15 @@ CGFloat lineSpacing = 5;
     CGFloat top = 0;
     CGFloat width = k_screen_width - kRightMargin - _nicknameBtn.left;
     if ([moment.likeList count]) {
-        MLLinkLabel * likeLabel = kMLLinkLabel(NO);
+        MLLinkLabel *likeLabel = kMLLinkLabel(NO);
         likeLabel.delegate = self;
         likeLabel.attributedText = kMLLinkAttributedText(moment);
         CGSize attrStrSize = [likeLabel preferredSizeWithMaxWidth:kTextWidth];
         likeLabel.frame = CGRectMake(5, 8, attrStrSize.width, attrStrSize.height);
         [_commentView addSubview:likeLabel];
         // 分割线
-        UIView * line = [[UIView alloc] initWithFrame:CGRectMake(0, likeLabel.bottom + 7, width, 0.5)];
-        line.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.3];
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, likeLabel.bottom + 5, width, 0.5)];
+        line.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.2];
         [_commentView addSubview:line];
         // 更新
         top = attrStrSize.height + 15;
@@ -205,7 +206,7 @@ CGFloat lineSpacing = 5;
     // 处理评论
     NSInteger count = [moment.commentList count];
     for (NSInteger i = 0; i < count; i ++) {
-        CommentLabel * label = [[CommentLabel alloc] initWithFrame:CGRectMake(0, top, width, 0)];
+        __block CommentLabel *label = [[CommentLabel alloc] initWithFrame:CGRectMake(0, top, width, 0)];
         label.comment = [moment.commentList objectAtIndex:i];
         // 点击评论
         [label setDidClickText:^(Comment *comment) {
@@ -231,9 +232,11 @@ CGFloat lineSpacing = 5;
     }
     // 更新UI
     if (top > 0) {
-        _bgImageView.frame = CGRectMake(_nicknameBtn.left, bottom, width, top + kArrowHeight);
-        _bgImageView.image = [[UIImage imageNamed:@"comment_bg"] stretchableImageWithLeftCapWidth:40 topCapHeight:30];
-        _commentView.frame = CGRectMake(_nicknameBtn.left, bottom + kArrowHeight, width, top);
+        _bgImageView.frame = CGRectMake(_nicknameBtn.left, bottom, width, top);
+        _bgImageView.backgroundColor = MMRGBColor(247, 247, 247);
+        _bgImageView.layer.cornerRadius = 4.0;
+        _bgImageView.layer.masksToBounds = YES;
+        _commentView.frame = CGRectMake(_nicknameBtn.left, bottom, width, top);
         rowHeight = _commentView.bottom + kBlank;
     } else {
         rowHeight = _timeLabel.bottom + kBlank;
@@ -309,7 +312,7 @@ CGFloat lineSpacing = 5;
         CGRect frame = [[_linkLabel superview] convertRect:_linkLabel.frame toView:self];
         CGRect menuFrame = CGRectMake(frame.origin.x + frame.size.width/2.0, frame.origin.y, 0, 0);
         if (!_menuController) {
-            UIMenuItem * copyItem = [[UIMenuItem alloc] initWithTitle:@"拷贝" action:@selector(copyHandler)];
+            UIMenuItem *copyItem = [[UIMenuItem alloc] initWithTitle:@"拷贝" action:@selector(copyHandler)];
             _menuController = [UIMenuController sharedMenuController];
             [_menuController setMenuItems:@[copyItem]];
         }
@@ -320,7 +323,7 @@ CGFloat lineSpacing = 5;
 
 - (void)copyHandler
 {
-    UIPasteboard * pasteboard = [UIPasteboard generalPasteboard];
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
     [pasteboard setString:_moment.text];
     [_menuController setMenuVisible:NO animated:YES];
 }

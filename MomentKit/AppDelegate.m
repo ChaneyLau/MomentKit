@@ -8,9 +8,13 @@
 
 #import "AppDelegate.h"
 #import "MainViewController.h"
+#import "DBCreator.h"
 #import <SDWebImageDownloader.h>
 #import <UMMobClick/MobClick.h>
+#import <AMapFoundationKit/AMapServices.h>
+#import <MAMapKit/MAMapKit.h>
 
+#define kAmapKey    @"3c3bcb3161fa1d2b57d20ad028789228"
 #define kUmAK       @"5c77c0370cafb212f80009d2"
 #define kVersion    [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]
 
@@ -41,6 +45,16 @@
 #else
     [MobClick setLogEnabled:NO];// 发布模式,不输出log信息
 #endif
+    
+    // 高德地图
+    [AMapServices sharedServices].apiKey = kAmapKey;
+    [MAMapView updatePrivacyShow:AMapPrivacyShowStatusDidShow privacyInfo:AMapPrivacyInfoStatusDidContain];
+    [MAMapView updatePrivacyAgree:AMapPrivacyAgreeStatusDidAgree];
+    
+    // 生成测试数据
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [DBCreator create];
+    });
     
     return YES;
 }

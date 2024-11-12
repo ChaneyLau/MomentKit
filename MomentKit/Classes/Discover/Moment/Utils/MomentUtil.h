@@ -10,7 +10,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Comment.h"
 #import "Moment.h"
 #import "Message.h"
 #import "MPicture.h"
@@ -28,8 +27,5 @@
 + (NSArray *)getIdListByIds:(NSString *)ids;
 // ids
 + (NSString *)getIdsByIdList:(NSArray *)idList;
-
-// 初始化
-+ (void)initMomentData;
 
 @end

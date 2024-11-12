@@ -14,20 +14,21 @@
 #import "MomentCell.h"
 #import "MomentUtil.h"
 #import "MMRunLoopWorkDistribution.h"
-#import "MMFPSLabel.h"
+#import "MomentAlert.h"
+#import <UUActionSheet.h>
 
 @interface MomentViewController ()<UITableViewDelegate,UITableViewDataSource,UUActionSheetDelegate,MomentCellDelegate>
 
-@property (nonatomic, strong) NSMutableArray * momentList;  // 朋友圈动态列表
-@property (nonatomic, strong) MMTableView * tableView; // 表格
-@property (nonatomic, strong) UIView * tableHeaderView; // 表头
-@property (nonatomic, strong) MMImageView * coverImageView; // 封面
-@property (nonatomic, strong) MMImageView * avatarImageView; // 当前用户头像
-@property (nonatomic, strong) MMCommentInputView * commentInputView; // 评论输入框
-@property (nonatomic, strong) MomentCell * operateCell; // 当前操作朋友圈动态
-@property (nonatomic, strong) Comment * operateComment; // 当前操作评论
-@property (nonatomic, strong) MUser * loginUser; // 当前用户
-@property (nonatomic, strong) NSIndexPath * selectedIndexPath; // 当前评论indexPath
+@property (nonatomic, strong) NSMutableArray *momentList;  // 朋友圈动态列表
+@property (nonatomic, strong) MMTableView *tableView; // 表格
+@property (nonatomic, strong) UIView *tableHeaderView; // 表头
+@property (nonatomic, strong) MMImageView *coverImageView; // 封面
+@property (nonatomic, strong) MMImageView *avatarImageView; // 当前用户头像
+@property (nonatomic, strong) MMCommentInputView *commentInputView; // 评论输入框
+@property (nonatomic, strong) MomentCell *operateCell; // 当前操作朋友圈动态
+@property (nonatomic, strong) Comment *operateComment; // 当前操作评论
+@property (nonatomic, strong) MUser *loginUser; // 当前用户
+@property (nonatomic, strong) NSIndexPath *selectedIndexPath; // 当前评论indexPath
 @property (nonatomic, assign) CGFloat keyboardHeight; // 键盘高度
 
 @end
@@ -37,7 +38,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = @"好友动态";
+    self.title = @"朋友圈";
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"moment_camera"] style:UIBarButtonItemStylePlain target:self action:@selector(addMoment)];
     
@@ -57,37 +58,48 @@
 - (void)configUI
 {
     // 封面
-    MMImageView * imageView = [[MMImageView alloc] initWithFrame:CGRectMake(0, -k_top_height, k_screen_width, 270)];
-    imageView.image = [UIImage imageNamed:@"moment_cover"];
+    MMImageView *imageView = [[MMImageView alloc] initWithFrame:CGRectMake(0, -k_top_height, k_screen_width, 350)];
+    [imageView sd_setImageWithURL:[NSURL URLWithString:self.loginUser.momentCover] placeholderImage:nil];
     self.coverImageView = imageView;
     // 用户头像
-    imageView = [[MMImageView alloc] initWithFrame:CGRectMake(k_screen_width-85, self.coverImageView.bottom-40, 75, 75)];
-    imageView.layer.borderColor = [[UIColor whiteColor] CGColor];
-    imageView.layer.borderWidth = 2;
-    imageView.image = [UIImage imageNamed:@"moment_head"];
+    imageView = [[MMImageView alloc] initWithFrame:CGRectMake(k_screen_width-85, self.coverImageView.bottom-50, 75, 75)];
+    imageView.layer.cornerRadius = 8;
+    [imageView sd_setImageWithURL:[NSURL URLWithString:self.loginUser.portrait] placeholderImage:nil];
     self.avatarImageView = imageView;
+    // 用户名
+    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(25, imageView.top + 20, k_screen_width - 120, 20)];
+    nameLabel.textAlignment = NSTextAlignmentRight;
+    nameLabel.textColor = [UIColor whiteColor];
+    nameLabel.font = [UIFont boldSystemFontOfSize:17.0];
+    nameLabel.text = self.loginUser.name;
     // 表头
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, k_screen_width, 270)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, k_screen_width, 320)];
     view.userInteractionEnabled = YES;
     [view addSubview:self.coverImageView];
     [view addSubview:self.avatarImageView];
+    [view addSubview:nameLabel];
     self.tableHeaderView = view;
     // 表格
-    MMTableView * tableView = [[MMTableView alloc] initWithFrame:CGRectMake(0, 0, k_screen_width, k_screen_height-k_top_height)];
-    tableView.separatorInset = UIEdgeInsetsZero;
-    tableView.dataSource = self;
-    tableView.delegate = self;
-    tableView.tableHeaderView = self.tableHeaderView;
-    [self.view addSubview:tableView];
-    self.tableView = tableView;
+    self.tableView = [[MMTableView alloc] initWithFrame:CGRectZero];
+    self.tableView.separatorInset = UIEdgeInsetsZero;
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    self.tableView.tableHeaderView = self.tableHeaderView;
+    if (@available(iOS 15.0, *)) {
+        self.tableView.sectionHeaderTopPadding = 0.0;
+    }
+    [self.view addSubview:self.tableView];
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
     // 上拉加载更多
-    MJRefreshAutoNormalFooter * footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        Moment * moment = [self.momentList lastObject];
-        NSArray * tempList = [MomentUtil getMomentList:moment.pk pageNum:5];
+    MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        Moment *moment = [self.momentList lastObject];
+        NSArray *tempList = [MomentUtil getMomentList:moment.pk pageNum:5];
         if ([tempList count]) {
             [self.momentList addObjectsFromArray:tempList];
             [self.tableView reloadData];
-            [tableView.mj_footer endRefreshing];
+            [self.tableView.mj_footer endRefreshing];
         } else {
             [self.tableView.mj_footer endRefreshingWithNoMoreData];
         }
@@ -95,9 +107,6 @@
     [footer setTitle:@"已加载全部" forState:MJRefreshStateNoMoreData];
     footer.stateLabel.font = [UIFont systemFontOfSize:14];
     self.tableView.mj_footer = footer;
-    // 悬浮FPS
-    MMFPSLabel * fpsLabel = [[MMFPSLabel alloc] initWithFrame:CGRectMake(0, 30, 80, 40)];
-    [self.view addSubview:fpsLabel];
 }
 
 #pragma mark - 发布动态
@@ -110,7 +119,7 @@
 - (void)addComment:(NSString *)commentText
 {
     // 新增评论
-    Comment * comment = [[Comment alloc] init];
+    Comment *comment = [[Comment alloc] init];
     comment.text = commentText;
     comment.fromUser = self.loginUser;
     comment.fromId = self.loginUser.pk;
@@ -120,11 +129,11 @@
     }
     [comment save];
     // 更新评论列表
-    Moment * moment = self.operateCell.moment;
-    NSMutableArray * commentList = [[NSMutableArray alloc] initWithArray:moment.commentList];
+    Moment *moment = self.operateCell.moment;
+    NSMutableArray *commentList = [[NSMutableArray alloc] initWithArray:moment.commentList];
     [commentList addObject:comment];
     moment.commentList = commentList;
-    NSMutableString * ids = [[NSMutableString alloc] initWithString:moment.commentIds];
+    NSMutableString *ids = [[NSMutableString alloc] initWithString:moment.commentIds];
     if ([ids length]) {
         [ids appendFormat:@",%d",comment.pk];
     } else {
@@ -166,45 +175,44 @@
     {
         case MMOperateTypeProfile: // 用户详情
         {
-            MMUserDetailViewController * controller = [[MMUserDetailViewController alloc] init];
+            MMUserDetailViewController *controller = [[MMUserDetailViewController alloc] init];
             controller.user = cell.moment.user;
             [self.navigationController pushViewController:controller animated:YES];
             break;
         }
         case MMOperateTypeDelete: // 删除
         {
-            UIAlertController * alert = [UIAlertController alertControllerWithTitle:@"确定删除吗？" message:nil preferredStyle:UIAlertControllerStyleAlert];
-            [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                // 取消
-            }]];
-            [alert addAction:[UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                // db移除
-                [cell.moment deleteObject];
-                // 移除UI
-                [self.momentList removeObject:cell.moment];
-                [self.tableView reloadData];
-            }]];
-            [self presentViewController:alert animated:YES completion:nil];
+            WS(wSelf);
+            MomentAlert *alert = [[MomentAlert alloc] initWithTitle:@"删除该朋友圈？" action:^(NSInteger buttonIndex) {
+                if (buttonIndex == 1) {
+                    // db移除
+                    [cell.moment deleteObject];
+                    // 移除UI
+                    [wSelf.momentList removeObject:cell.moment];
+                    [wSelf.tableView reloadData];
+                }
+            }];
+            [alert show];
             break;
         }
         case MMOperateTypeLocation: // 位置
         {
-            MMLocationViewController * controller = [[MMLocationViewController alloc] init];
+            MMLocationViewController *controller = [[MMLocationViewController alloc] init];
             controller.location = cell.moment.location;
             [self.navigationController pushViewController:controller animated:YES];
         }
         case MMOperateTypeLike: // 点赞
         {
             // data
-            Moment * moment = cell.moment;
-            NSMutableArray * likeList = [NSMutableArray arrayWithArray:moment.likeList];
-            NSMutableArray * idList = [NSMutableArray arrayWithArray:[moment.likeIds componentsSeparatedByString:@","]];
+            Moment *moment = cell.moment;
+            NSMutableArray *likeList = [NSMutableArray arrayWithArray:moment.likeList];
+            NSMutableArray *idList = [NSMutableArray arrayWithArray:[moment.likeIds componentsSeparatedByString:@","]];
             if (moment.isLike) { // 取消点赞
                 moment.isLike = 0;
-                NSPredicate * predicate = [NSPredicate predicateWithFormat:@"type = 1"];
-                NSArray * result = [likeList filteredArrayUsingPredicate:predicate];
+                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"type = 1"];
+                NSArray *result = [likeList filteredArrayUsingPredicate:predicate];
                 if ([result count]) {
-                    MUser * removeUser = [result firstObject];
+                    MUser *removeUser = [result firstObject];
                     [likeList removeObject:removeUser];
                     [idList removeObject:[NSString stringWithFormat:@"%d",removeUser.pk]];
                 }
@@ -218,7 +226,7 @@
             [moment update];
             // 刷新
             [self.momentList replaceObjectAtIndex:cell.tag withObject:moment];
-            NSIndexPath * indexPath = [self.tableView indexPathForCell:cell];
+            NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
             if (indexPath) {
                 [UIView performWithoutAnimation:^{
                     [self.tableView reloadRowsAtIndexPaths:@[indexPath]
@@ -241,7 +249,7 @@
         }
         case MMOperateTypeFull: // 全文/收起
         {
-            NSIndexPath * indexPath = [self.tableView indexPathForCell:cell];
+            NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
             if (indexPath) {
                 [UIView performWithoutAnimation:^{
                     [self.tableView reloadRowsAtIndexPaths:@[indexPath]
@@ -262,8 +270,8 @@
     self.operateComment = comment;
     
     if (comment.fromUser.type == 1) { // 删除自己的评论
-        UUActionSheet * sheet = [[UUActionSheet alloc] initWithTitle:@"删除我的评论" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"删除" otherButtonTitles:nil];
-        sheet.tag = MMDelCommentTag;
+        UUActionSheet *sheet = [[UUActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"删除" otherButtonTitles:nil];
+        sheet.tag = MMDeleteCommentTag;
         [sheet showInView:self.view.window];
     } else { // 回复评论
         self.selectedIndexPath = [self.tableView indexPathForCell:cell];
@@ -279,29 +287,30 @@
     {
         case MLLinkTypeURL: // 链接
         {
-            WKWebViewController * controller = [[WKWebViewController alloc] init];
+            WKWebViewController *controller = [[WKWebViewController alloc] init];
             controller.url = linkText;
             [self.navigationController pushViewController:controller animated:YES];
             break;
         }
         case MLLinkTypePhoneNumber: // 电话
         {
-            UUActionSheet * sheet = [[UUActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"%@可能是一个电话号码，你可以",link.linkValue] delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"呼叫" otherButtonTitles:@"复制号码",nil];
+            UUActionSheet *sheet = [[UUActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"%@可能是一个电话号码，你可以",link.linkValue] delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"呼叫", @"复制号码",nil];
             sheet.tag = MMHandlePhoneTag;
             [sheet showInView:self.view.window];
             break;
         }
         case MLLinkTypeEmail: // 邮箱
         {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"mailto://%@",linkText]]];
+            UUActionSheet *sheet = [[UUActionSheet alloc] initWithTitle:[NSString stringWithFormat:@"向%@可发送邮件",link.linkValue] delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"使用默认邮件账户", @"复制邮箱",nil];
+            sheet.tag = MMHandleEmailTag;
+            [sheet showInView:self.view.window];
             break;
         }
         case MLLinkTypeOther: // 用户
         {
             int pk = [link.linkValue intValue];
-            MUser * user = [MUser findByPK:pk];
-            
-            MMUserDetailViewController * controller = [[MMUserDetailViewController alloc] init];
+            MUser *user = [MUser findByPK:pk];
+            MMUserDetailViewController *controller = [[MMUserDetailViewController alloc] init];
             controller.user = user;
             [self.navigationController pushViewController:controller animated:YES];
             break;
@@ -315,27 +324,35 @@
 - (void)actionSheet:(UUActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (actionSheet.tag == MMHandlePhoneTag) { // 电话
-        NSString * title = actionSheet.title;
-        NSString * subString = [title substringWithRange:NSMakeRange(0, [title length] - 13)];
+        NSString *title = actionSheet.title;
+        NSString *subString = [title substringWithRange:NSMakeRange(0, [title length] - 13)];
         if (buttonIndex == 0) { // 拨打电话
-            UIWebView * webView = [[UIWebView alloc] init];
-            NSURL * url = [NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",subString]];
+            UIWebView *webView = [[UIWebView alloc] init];
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",subString]];
             [webView loadRequest:[NSURLRequest requestWithURL:url]];
             [self.view addSubview:webView];
         } else if (buttonIndex == 1) { // 复制
-            [[UIPasteboard generalPasteboard] setPersistent:YES];
             [[UIPasteboard generalPasteboard] setValue:subString forPasteboardType:[UIPasteboardTypeListString objectAtIndex:0]];
         } else { // 取消
-            
+
         }
-    } else if (actionSheet.tag == MMDelCommentTag) { // 删除自己的评论
-        if (buttonIndex == 0)
-        {
+    } else if (actionSheet.tag == MMHandleEmailTag) {
+        NSString *title = actionSheet.title;
+        NSString *subString = [title substringWithRange:NSMakeRange(1, [title length] - 6)];
+        if (buttonIndex == 0) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"mailto://%@",subString]]];
+        } else if (buttonIndex == 1) { // 复制
+            [[UIPasteboard generalPasteboard] setValue:subString forPasteboardType:[UIPasteboardTypeListString objectAtIndex:0]];
+        } else { // 取消
+
+        }
+    } else if (actionSheet.tag == MMDeleteCommentTag) { // 删除自己的评论
+        if (buttonIndex == 0) {
             // 移除Moment的评论
-            Moment * moment = self.operateCell.moment;
-            NSMutableArray * tempList = [NSMutableArray arrayWithArray:moment.commentList];
+            Moment *moment = self.operateCell.moment;
+            NSMutableArray *tempList = [NSMutableArray arrayWithArray:moment.commentList];
             [tempList removeObject:self.operateComment];
-            NSMutableArray * idList = [NSMutableArray arrayWithArray:[MomentUtil getIdListByIds:moment.commentIds]];
+            NSMutableArray *idList = [NSMutableArray arrayWithArray:[MomentUtil getIdListByIds:moment.commentIds]];
             [idList removeObject:[NSString stringWithFormat:@"%d",self.operateComment.pk]];
             moment.commentIds = [MomentUtil getIdsByIdList:idList];
             moment.commentList = tempList;
@@ -344,7 +361,7 @@
             [self.operateComment deleteObject];
             // 刷新
             [self.momentList replaceObjectAtIndex:self.operateCell.tag withObject:moment];
-            NSIndexPath * indexPath = [self.tableView indexPathForCell:self.operateCell];
+            NSIndexPath *indexPath = [self.tableView indexPathForCell:self.operateCell];
             if (indexPath) {
                 [UIView performWithoutAnimation:^{
                     [self.tableView reloadRowsAtIndexPaths:@[indexPath]
@@ -352,10 +369,10 @@
                 }];
             }
         } else { // 取消
-            
+
         }
     } else {
-        
+
     }
 }
 
@@ -372,8 +389,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString * identifier = @"MomentCell";
-    MomentCell * cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    static NSString *identifier = @"MomentCell";
+    MomentCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
         cell = [[MomentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -398,7 +415,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // 使用缓存行高，避免计算多次
-    Moment * moment = [self.momentList objectAtIndex:indexPath.row];
+    Moment *moment = [self.momentList objectAtIndex:indexPath.row];
     return moment.rowHeight;
 }
 

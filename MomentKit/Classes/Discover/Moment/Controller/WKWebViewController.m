@@ -7,9 +7,11 @@
 //
 
 #import "WKWebViewController.h"
-#import <MMWebView.h>
+#import <WebKit/WebKit.h>
 
-@interface WKWebViewController ()<MMWebViewDelegate>
+@interface WKWebViewController ()<WKUIDelegate, WKNavigationDelegate>
+
+@property (nonatomic, strong) WKWebView *webView;
 
 @end
 
@@ -19,21 +21,34 @@
 {
     [super viewDidLoad];
     
-    MMWebView * webView = [[MMWebView alloc] initWithFrame:CGRectMake(0, 0, k_screen_width, k_screen_height-k_top_height)];
-    webView.backgroundColor = [UIColor whiteColor];
-    webView.opaque = NO;
-    webView.delegate = self;
-    webView.displayProgressBar = YES;
-    webView.allowsBackForwardNavigationGestures = YES;
-    webView.progressTintColor = MMRGBColor(30.f, 191.f, 97.f); 
-    [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.url]]];
-    [self.view addSubview:webView];
+    WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
+    configuration.userContentController = [WKUserContentController new];
+    WKPreferences *preferences = [WKPreferences new];
+    preferences.javaScriptCanOpenWindowsAutomatically = YES;
+    configuration.preferences = preferences;
+    
+    self.webView = [[WKWebView alloc] initWithFrame:CGRectZero configuration:configuration];
+    self.webView.UIDelegate = self;
+    self.webView.navigationDelegate = self;
+    [self.view addSubview:self.webView];
+    [self.webView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
+    // 加载
+    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.url]]];
+    [self.webView addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew context:NULL];
 }
 
-#pragma mark - MMWebViewDelegate
-- (void)webView:(MMWebView *)webView didUpdateTitle:(NSString *)title
+#pragma mark - KVO
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
 {
-    self.title = title;
+    if ([keyPath isEqualToString:@"title"]) {
+        if (object == self.webView) {
+            self.title = self.webView.title;
+        } else {
+            [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+        }
+    }
 }
 
 @end
